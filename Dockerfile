@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.3-apache
 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
@@ -33,6 +33,6 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
     install-php-extensions amqp
 
-ADD ./ /var/www
+COPY backend/ /var/www
 
 WORKDIR /var/www

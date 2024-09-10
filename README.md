@@ -4,27 +4,50 @@
 
 ## Requirements :
 - Ubuntu 20.04 or higher
-- symfony cli AND/OR composer on your local machine
 - docker and docker-compose (optionnal: docker desktop)
 - an IDE (phpStorm, Vscode or else)
+- Make on your local machine if you want to use the Makefile commands (optionnal)
 - git (optionnal but better)
 
 ## How to set a new project
+### Prepare
 - `git clone` this project
-- rename the folder you cloned with the name of your project (optionnal it's only for you to best organize your folders/project) 
-- in `docker/apache/vhosts.conf` Set env variables that will set your vhosts.conf file
-- duplicate `.env.template` to make `.env` file and set your environment variables (this variables are used in the `docker-compose.yml`) (.env is by default gitignored)
-- install Symfony 
-    - with Symfony cli `symfony new your_project_name --version="6.3"` (choose the version you want just beware it has to be compatible with your php version. cf Dockerfile)
-    -  with composer `composer create-project symfony/skeleton:"6.3.*" your_project_name`
-    - if you plan to run a full site/webapp symfony project you might need to install node and npm
-- run `docker-compose up --build` (so you can see errors while images are building)
-- Check everything went fine :
-    - go to localhost:(your_port) (it is the port you defined in the .env file in the variable PHP_APACHE_HOST_PORT)
-    - you should see your symfony welcome page
-    - go to localhost:(your_pma_port) (it is the port you defined in the .env file in the variable PMA_HOST_PORT)
-    - you should see your php my admin home page (you can log with root and password is the one you set in the .env file)
-- At this point your containers should be running fine. You're ready to go !
+- rename the main folder to your project name
+  - `mv symfony-stack your-project-name`
+- copy the .env.template file to .env and set the variables (Ports, project name, etc)
+- Set your php version/image in the Dockerfile
+- `FROM php:8.3-apache`
 
-## How to set HTTPS in your local env + traefik.me
-- Incoming...
+### Build
+- `docker-compose up --build` OR `make build` to build the containers
+
+### Install Symfony
+- once the containers are up and running install Symfony :
+  - access your php-apache container 
+    - `docker exec -it php-container-id-or-name bash` OR `make php`
+    - `composer create-project symfony/skeleton:"7.1.*" .`
+- If you are building a microservice or console app or API you're good to go.
+- If you need the packages for a webApp :
+  - `composer require webapp`
+
+#### Change the owner
+- access your php container
+  - `docker exec -it php-container-id-or-name bash` OR `make php`
+  - go to var
+    - `cd /var`
+  - change the owner of the www folder
+    - `chown -R www-data:www-data www`
+
+- If you can't create a file on your local machine :
+  - You might need to change the owner of your backend directory on your local machine too
+    - `sudo chown -R $USER:$USER backend`
+
+
+### Good to go ?
+- check `localhost:8080` to see your app running or `localhost:PHP_APACHE_HOST_PORT` you have set in the .env file
+- check `localhost:8088` to see your phpmyadmin or `localhost:PMA_HOST_PORT` you have set in the .env file
+- your database is running on port `3308` or `MYSQL_PORT` you have set in the .env file
+- At this point your containers should be running fine. You're ready to go 🚀!
+
+- If something is wrong check your docker logs
+

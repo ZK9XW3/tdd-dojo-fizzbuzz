@@ -40,12 +40,12 @@ services:
     ###########################
     www:
         build: ./
-        container_name: ${PROJECT_NAME}_php_apache
+        container_name: ${PROJECT_NAME}_www
         ports:
           - ${PHP_APACHE_HOST_PORT}:80
         volumes:
             - ${VHOSTS_DIR}:/etc/apache2/sites-enabled
-            - ${PROJECT_DIR}:/var/www
+            - ${BACKEND_DIR}:/var/www
         restart: always
         networks:
             - symfony_stack_network
