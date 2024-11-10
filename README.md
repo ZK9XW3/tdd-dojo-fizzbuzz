@@ -44,9 +44,9 @@
 
 #### Sync to your GitHub repository
 - `git init`
-Remove the origin
+- Remove the origin:
 - `git remote remove origin`
-Add your repository as origin
+- Add your repository as origin:
 - `git remote add origin your-repo-ssh-url`
 - `git branch -M main` OR `git branch -M master`
 - `git add .`
