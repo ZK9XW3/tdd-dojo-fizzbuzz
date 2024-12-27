@@ -77,7 +77,7 @@
   - You might need to change the owner of your backend directory on your local machine too
     - `sudo chown -R $USER:$USER backend`
 
-### Good to go ?
+## Good to go ?
 - check `localhost:8080` to see your app running or `localhost:PHP_APACHE_HOST_PORT` you have set in the .env file
 - check `localhost:8088` to see your phpmyadmin or `localhost:PMA_HOST_PORT` you have set in the .env file
 - your database is running on port `3308` or `MYSQL_PORT` you have set in the .env file
