@@ -44,6 +44,17 @@
 - doctrine
 - doctrine fixtures
 
+### Git - Sync to your GitHub repository
+- `git init`
+- Remove the origin:
+- `git remote remove origin`
+- Add your repository as origin:
+- `git remote add origin your-repo-ssh-url`
+- `git branch -M main` OR `git branch -M master`
+- `git add .`
+- `git commit -m "Initial commit"`
+- `git push -u origin main` OR `git push -u origin master`
+
 ## Useful commands
 ### PhpUnit
 - `make phpunit` to run the tests
@@ -65,17 +76,6 @@
 - If you can't create a file on your local machine :
   - You might need to change the owner of your backend directory on your local machine too
     - `sudo chown -R $USER:$USER backend`
-
-#### Sync to your GitHub repository
-- `git init`
-- Remove the origin:
-- `git remote remove origin`
-- Add your repository as origin:
-- `git remote add origin your-repo-ssh-url`
-- `git branch -M main` OR `git branch -M master`
-- `git add .`
-- `git commit -m "Initial commit"`
-- `git push -u origin main` OR `git push -u origin master`
 
 ### Good to go ?
 - check `localhost:8080` to see your app running or `localhost:PHP_APACHE_HOST_PORT` you have set in the .env file
