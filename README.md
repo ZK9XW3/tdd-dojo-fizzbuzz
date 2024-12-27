@@ -22,21 +22,45 @@
 - `docker-compose up --build` OR `make build` to build the containers
 
 ### Install Symfony
-- once the containers are up and running install Symfony :
-  - access your php-apache container 
+- once the containers are up and running install Symfony and specify your version :
+  - with the maker : `make install-symfony version=7.2.x`
+  - OR access your php-apache container 
     - `docker exec -it php-container-id-or-name bash` OR `make php`
     - `composer create-project symfony/skeleton:"7.1.*" .`
 - If you are building a microservice or console app or API you're good to go.
 - If you need the packages for a webApp :
+  - with the maker : `make install-symfony-webapp`
   - `composer require webapp`
 
-#### Change the owner
-- access your php container
+### Install PhpUnit
+- with the maker : `make install-phpunit`
+- OR access your php-apache container 
   - `docker exec -it php-container-id-or-name bash` OR `make php`
-  - go to var
-    - `cd /var`
-  - change the owner of the www folder
-    - `chown -R www-data:www-data www`
+  - `composer require --dev symfony/test-pack`
+
+### Install other utilities
+### Recommended
+- phpcsfixer
+- doctrine
+- doctrine fixtures
+
+## Useful commands
+### PhpUnit
+- `make phpunit` to run the tests
+- `make fixtures` to load the fixtures
+- `make fix` to fix with php-cs-fixer
+
+## Troubleshooting
+#### Change the owner
+- owner in your container should be www-data
+- owner on your local machine should be your user
+- if you need to change ownership :
+  - access your php container
+    - `docker exec -it php-container-id-or-name bash` OR `make php`
+    - go to var
+      - `cd /var/www`
+    - change the owner of the www folder
+      - `chown -R www-data:www-data html`
 
 - If you can't create a file on your local machine :
   - You might need to change the owner of your backend directory on your local machine too

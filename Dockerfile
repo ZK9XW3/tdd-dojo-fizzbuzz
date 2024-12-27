@@ -1,4 +1,4 @@
-FROM php:8.3-apache
+FROM php:8.4.2-apache-bookworm
 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
@@ -29,10 +29,14 @@ RUN pecl install apcu && docker-php-ext-enable apcu
 # Add php extensions    
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
+RUN mkdir "backend"
+
 # Give permissions
 RUN chmod +x /usr/local/bin/install-php-extensions && sync && \
     install-php-extensions amqp
 
-COPY backend/ /var/www
+WORKDIR /var/www/html
 
-WORKDIR /var/www
+COPY ./docker/entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
